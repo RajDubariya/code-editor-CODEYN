@@ -25,7 +25,6 @@ io.on("connection", (socket) => {
   socket.on(ACTIONS.JOIN, ({ roomid, username }) => {
     userSocketMap[socket.id] = username;
     socket.join(roomid);
-
     const clients = getAllConnectedUsers(roomid);
 
     clients.forEach(({ socketId }) => {
@@ -46,6 +45,9 @@ io.on("connection", (socket) => {
   socket.on("disconnecting", () => {
     const rooms = [...socket.rooms];
     rooms.forEach((roomId) => {
+      if (getAllConnectedUsers(roomId).length === 1) {
+        delete currentCode[roomId];
+      }
       socket.in(roomId).emit(ACTIONS.DISCONNECTED, {
         socketId: socket.id,
         username: userSocketMap[socket.id],

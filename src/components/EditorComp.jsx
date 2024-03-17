@@ -1,4 +1,5 @@
 import Editor from "@monaco-editor/react";
+import "monaco-editor/esm/vs/basic-languages/python/python.contribution";
 import PropTypes from "prop-types";
 
 const EditorComp = ({ code, handleCodeChange }) => {
@@ -7,9 +8,13 @@ const EditorComp = ({ code, handleCodeChange }) => {
       <Editor
         height="100vh"
         theme="vs-dark"
-        defaultLanguage="javascript"
+        language="javascript"
         value={code}
         onChange={handleCodeChange}
+        options={{
+          fontSize: "22px",
+          letterSpacing: 1.5,
+        }}
       />
     </>
   );
